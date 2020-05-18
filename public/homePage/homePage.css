@@ -1,0 +1,15 @@
+html, body {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.user-card {   
+    display: flex;
+    align-items: center;    
+    width: 200px;
+}
+#profile-pic {
+    border-radius: 50%;
+}
