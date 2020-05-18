@@ -1,9 +1,15 @@
 async function onLoad() {
     let user_details = await fbLogin();
-    if (user_details!=='') {
-        console.log('Got user details! its %o', user_details);
-    }
+    updateUserDetails(user_details);    
 }
+
+function updateUserDetails(details) {
+  if (details!=='') {      
+    document.getElementById('intro-message').innerText+=' '+details.name;
+    document.getElementById('profile-pic').setAttribute('src', details.profileUrl);
+  }
+}
+
 function fbLogin() {
     return new Promise(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
@@ -27,5 +33,6 @@ function fbLogin() {
       xhr.send();
     });
   } // login
+
 
 onLoad();
