@@ -1,5 +1,12 @@
 # Kashragon beta
+## Setting up
+1. Clone/fork the repository
+2. Cd into project directory and 'npm install' in the cmd.
+```bash
+npm install
+```
 
+## Running the app
 To run the app locally, you will need to do the following:
 
 1. Run an instance of mogoDB on the cmd.
