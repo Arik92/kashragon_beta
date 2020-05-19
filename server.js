@@ -102,7 +102,6 @@ app.use(passport.session());
 
 // FB routes
 app.get('/login/facebook', passport.authenticate('facebook'), (req, res) =>{
-  console.log('fb login attempt');
 }, (err) =>{
   console.log('err? ', err)
 });
@@ -114,7 +113,11 @@ app.get('/fbuser', (req, res) => {
 // FB routes
 
 app.get('/', (req, res) => {    
-  res.sendFile(__dirname + "/public/login/login.html");    
+  res.sendFile(__dirname + "/public/homePage/homePage.html");    
+});
+app.get('/logout', (req, res) => {    
+  req.logOut();
+  res.redirect('/');
 });
 
 app.listen(process.env['PORT'] || '8000', function () {

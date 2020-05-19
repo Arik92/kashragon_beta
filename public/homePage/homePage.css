@@ -5,8 +5,8 @@ html, body {
     align-items: center;
     justify-content: center;
 }
-.user-card {   
-    display: flex;
+#login, #user-card {   
+    display:none;
     align-items: center;    
     width: 200px;
 }

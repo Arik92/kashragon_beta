@@ -1,12 +1,15 @@
 async function onLoad() {
     let user_details = await fbLogin();
-    updateUserDetails(user_details);    
+    updateLayout(user_details);    
 }
 
-function updateUserDetails(details) {
-  if (details!=='') {      
+function updateLayout(details) {
+  if (Object.getOwnPropertyNames(details).length > 0) {      
+    document.getElementById('user-card').style.display = "flex";
     document.getElementById('intro-message').innerText+=' '+details.name;
     document.getElementById('profile-pic').setAttribute('src', details.profileUrl);
+  } else {
+    document.getElementById('login').style.display = "flex";
   }
 }
 
@@ -33,6 +36,5 @@ function fbLogin() {
       xhr.send();
     });
   } // login
-
 
 onLoad();
