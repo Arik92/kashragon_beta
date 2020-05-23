@@ -3,11 +3,10 @@ let Schema = mongoose.Schema;
 
 
 let folderSchema = new Schema({
-    name: String,
-    training_units: [string],
+    name: {type: String, unique: true},
     creator: { type: Schema.Types.ObjectId, ref:"User", $db : "users" },  // user ref of id.
     allowed_members: [{ type: Schema.Types.ObjectId, ref:"User", $db : "users" }],
-    unit_frames: [{
+    training_units: [{
         name: String,
         recipts: [{ type: Schema.Types.ObjectId, ref:"Recipt", $db : "recipts" }],        
     }]
@@ -17,4 +16,3 @@ let folderSchema = new Schema({
 let Item = mongoose.model("Folder", folderSchema);
 
 module.exports = Item;
-// as the app expands, it might be neccesary to differentiate צ and non צ items

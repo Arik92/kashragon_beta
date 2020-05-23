@@ -6,6 +6,9 @@ let bodyParser = require('body-parser');
 let passport = require('passport');
 let fbStrategy = require('passport-facebook').Strategy; // there might be more than one strategy
 let user = require('./models/user');
+// let router = express.Router();
+
+let folderRoutes = require('./routes/folder_routes');
 
 // MONGO CONNECT
 // var mongo_config = JSON.parse(process.env.APP_CONFIG);
@@ -95,10 +98,13 @@ app.use(express.static(__dirname + '/public/homePage'));
 app.use(express.static('node_modules'));
 app.use(require('cookie-parser')()); // for req.secret. Will see if required
 // app.use(require('morgan')('combined')); // logging - OPTIONAL
-app.use(bodyParser.urlencoded({ extended: true }));
+// app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(expressSession({ secret: 'SIlver Tiger', resave: true, saveUninitialized: true }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/folders', folderRoutes);
 
 // FB routes
 app.get('/login/facebook', passport.authenticate('facebook'), (req, res) =>{
