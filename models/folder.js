@@ -3,11 +3,11 @@ let Schema = mongoose.Schema;
 
 
 let folderSchema = new Schema({
-    name: {type: String, unique: true},
+    folder_name: {type: String, unique: true},
     creator: { type: Schema.Types.ObjectId, ref:"User", $db : "users" },  // user ref of id.
     allowed_members: [{ type: Schema.Types.ObjectId, ref:"User", $db : "users" }],
     training_units: [{
-        name: String,
+        unit_name: String,
         recipts: [{ type: Schema.Types.ObjectId, ref:"Recipt", $db : "recipts" }],        
     }]
     // reports: [] // future features. might consider relocating this

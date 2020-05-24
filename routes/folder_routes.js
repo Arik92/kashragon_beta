@@ -6,13 +6,13 @@ const helper = require('./helper');
 
 router.post('/:id', async (req, res) => {
     let new_folder = new FOLDER({});
-    const creator_id = helper.toObjectId(req.params.id)
+    const creator_id = helper.toObjectId(req.params.id);
     new_folder.creator = creator_id;
     new_folder.allowed_members.push(creator_id);
-    new_folder.name = req.body.folder_name;
+    new_folder.folder_name = req.body.folder_name;
     req.body.units.map(unit => {
         new_folder.training_units.push({
-            name: unit,
+            unit_name: unit,
             recipts: []
         });
     });
@@ -24,17 +24,17 @@ router.post('/:id', async (req, res) => {
     }
  });
 
-//  router.get('/:id', (req, res) => { 
-//      // get all folders that the user with id param has access to
-//      const userId = req.params.id;
-//      FOLDER.find({ allowed_members: userId }, (err, folders) => {
-//          if (err) {
-//              console.error('error fetching folders for that id');
-//          } else {
-//              res.send(folders);
-//          }
-//      });
-//  });
+ router.get('/:id', async (req, res) => { 
+     // get all folders that the user with id param has access to
+     const userId = req.params.id;
+     try {
+        const folders = await FOLDER.find({ allowed_members: userId });
+        res.send(folders);
+     } catch(err) {
+        console.error('error fetching folders for that id');
+        res.send(err.errmsg);
+     };     
+ });
 
 //  router.put('/add_member/:folder_id', async (req, res) => { 
 //        /** Add a member to allowed_members of folder, if creator id matches request id
