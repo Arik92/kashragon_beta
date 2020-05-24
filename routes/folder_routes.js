@@ -36,21 +36,25 @@ router.post('/:id', async (req, res) => {
      };     
  });
 
-//  router.put('/add_member/:folder_id', async (req, res) => { 
-//        /** Add a member to allowed_members of folder, if creator id matches request id
-//         * params: id of folder to modify, id of user to be added, and request id
-//        */
-//     const folderId = req.params.folder_id;
-//     const requestId = req.body.request_id;
-//     const memberId = req.body.member_id;
-   
-//     const updatedFolder = await FOLDER.findOneAndUpdate({$and: [
-//         { creator: requestId },
-//         { _id: folderId }]},
-//         { $push: { allowed_members: memberId }},
-//         { new: true });
-//     res.send(updatedFolder);
-//  });
+ router.put('/add_member/:folder_id', async (req, res) => { 
+       /** Add a member to allowed_members of folder, if creator id matches request id
+        * params: id of folder to modify, id of user to be added, and request id
+       */
+    const folderId = req.params.folder_id;
+    const requestId = req.body.request_id;
+    const memberId = req.body.member_id;
+    try {   
+    const updatedFolder = await FOLDER.findOneAndUpdate({$and: [
+        { creator: requestId },
+        { _id: folderId }]},
+        { $push: { allowed_members: memberId }},
+        { new: true });
+    res.send(updatedFolder);
+    } catch(err) {
+        console.error('error adding user to folder permissions');
+        res.send(err.errmsg);
+    }
+ });
 
 // router.delete('/del_folder', (req, res) => {
 //    let del_id = rqe.body.id;
