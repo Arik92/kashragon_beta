@@ -16,7 +16,7 @@ function updateLayout(details) {
 function fbLogin() {
     return new Promise(function(resolve, reject) {
       var xhr = new XMLHttpRequest();
-      xhr.open('GET', '/fbuser', true);
+      xhr.open('GET', '/users/fbuser', true);
       // Track the state changes of the request.
       xhr.onreadystatechange = function () {
         var DONE = 4; // request is done.
