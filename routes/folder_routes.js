@@ -3,7 +3,6 @@ const router = express.Router();
 const FOLDER = require('../models/folder');
 const helper = require('./helper');
 
-
 router.post('/:id', async (req, res) => {
     let new_folder = new FOLDER({});
     const creator_id = helper.toObjectId(req.params.id);
