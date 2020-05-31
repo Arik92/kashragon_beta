@@ -38,39 +38,36 @@ router.post('/:id', async (req, res) => {
 
  router.put('/add_member/:folder_id', async (req, res) => { 
        /** Add a member to allowed_members of folder, if creator id matches request id
-        * params: id of folder to modify, id of user to be added, and request id
-       */
+        * params: id of folder to modify, id of user to be added, and request id       */
     const folderId = req.params.folder_id;
-    const requestId = req.body.request_id;
-    const memberId = req.body.member_id;
+    const creatorId = helper.toObjectId(req.body.creator_id);
+    const memberId = helper.toObjectId(req.body.member_id); // MUST be a valid objectId string
+
     try {   
     const updatedFolder = await FOLDER.findOneAndUpdate({$and: [
-        { creator: requestId },
+        { creator: creatorId },
         { _id: folderId }]},
         { $push: { allowed_members: memberId }},
-        { new: true });
+        { new: true, useFindAndModify: false });
     res.send(updatedFolder);
     } catch(err) {
-        console.error('error adding user to folder permissions');
+        console.error('error adding user to folder permissions', err);
         res.send(err.errmsg);
     }
  });
 
-// router.delete('/del_folder', (req, res) => {
-//    let del_id = rqe.body.id;
-//    if (!del_id) {
-//        res.send('folder id not found')
-//    }
-//     FOLDER.findByIdAndRemove(del_id, (req, res) => {
-//         // TODO: send a log to log
-//         res.send('done');
-//         // next();
-//     })
-//     // , (req, res) => {
-//     //     // let items = req.body.items;
-//     //     // this wont do, unlike folder items have quantities. how would that work?
-//     //     res.send('done!');
-//     // })    
-//  });
+router.delete('/:folder_name', async (req, res) => {
+   let del_name = req.params.folder_name;
+   if (!del_name) {
+       res.send('folder id not found')
+   }
+   try {
+    const deletedFolder = await FOLDER.findOneAndRemove({folder_name: del_name}, { useFindAndModify: false });
+    //TODO: take care of folder's recipts
+    res.send(deletedFolder);
+   } catch(err) {
+       console.error('error deleting folder '+ del_name +' :', err);
+   }     
+ });
 
 module.exports = router;
